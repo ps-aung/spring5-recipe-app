@@ -3,12 +3,15 @@
  */
 package psa.springframework.domain;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -36,6 +39,8 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
     
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "recipe")
+    private Set<Ingredient> ingrdients;
 	/**
 	 * @return the id
 	 */
@@ -156,7 +161,20 @@ public class Recipe {
 	public void setNotes(Notes notes) {
 		this.notes = notes;
 	}
+	/**
+	 * @return the ingrdients
+	 */
+	public Set<Ingredient> getIngrdients() {
+		return ingrdients;
+	}
+	/**
+	 * @param ingrdients the ingrdients to set
+	 */
+	public void setIngrdients(Set<Ingredient> ingrdients) {
+		this.ingrdients = ingrdients;
+	}
     
+	
     
 
 }
