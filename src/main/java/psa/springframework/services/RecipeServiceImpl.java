@@ -1,6 +1,7 @@
 package psa.springframework.services;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -27,6 +28,17 @@ public class RecipeServiceImpl implements RecipeService {
 		Set<Recipe> recipes = new HashSet<>();
 		recipeRepository.findAll().forEach(recipes::add);
 		return recipes;
+	}
+
+	@Override
+	public Recipe findById(Long l) {
+		Optional<Recipe> recipeOptional = recipeRepository.findById(l);
+
+		if (!recipeOptional.isPresent()) {
+			throw new RuntimeException("Recipe Not Found!");
+		}
+
+		return recipeOptional.get();
 	}
 
 }
