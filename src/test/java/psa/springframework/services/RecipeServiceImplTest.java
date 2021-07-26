@@ -8,6 +8,7 @@ import psa.springframework.commands.RecipeCommand;
 import psa.springframework.converters.RecipeCommandToRecipe;
 import psa.springframework.converters.RecipeToRecipeCommand;
 import psa.springframework.domain.Recipe;
+import psa.springframework.exceptions.NotFoundException;
 import psa.springframework.repositories.RecipeRepository;
 import java.util.HashSet;
 import java.util.Optional;
@@ -47,6 +48,15 @@ public class RecipeServiceImplTest {
         assertNotNull("Null recipe returned", recipeReturned);
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getReciptByIDTestNotFound() throws Exception {
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
     }
 
     @Test
