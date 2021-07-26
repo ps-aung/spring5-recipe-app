@@ -1,18 +1,18 @@
 package psa.springframework.services;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
-import org.springframework.stereotype.Service;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import psa.springframework.commands.RecipeCommand;
 import psa.springframework.converters.RecipeCommandToRecipe;
 import psa.springframework.converters.RecipeToRecipeCommand;
 import psa.springframework.domain.Recipe;
+import psa.springframework.exceptions.NotFoundException;
 import psa.springframework.repositories.RecipeRepository;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -43,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
 		Optional<Recipe> recipeOptional = recipeRepository.findById(l);
 
 		if (!recipeOptional.isPresent()) {
-			throw new RuntimeException("Recipe Not Found!");
+			throw new NotFoundException("Recipe Not Found. For ID value: "+l.toString());
 		}
 
 		return recipeOptional.get();
